@@ -1,4 +1,4 @@
-openzeppelin/=lib/openzeppelin/src/
-@openzeppelin/contracts/=lib/openzeppelin/src/
+@openzeppelin/=lib/openzeppelin
+@layerzerolabs/=lib/layerzero
 forge-std/=lib/forge-std/src/
 src/=src/

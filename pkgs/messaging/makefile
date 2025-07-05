@@ -35,18 +35,20 @@ METADATA_FLAG := $(if $(findstring false,$(APPEND_METADATA_$(CONFIG))),--no-meta
 
 # See README.md for more documentation.
 
-# Location of top-level node_modules relative to the contracts package.
+# Location of top-level node_modules relative to the current package.
 # We need the top-level on with Bun, because it leaves the package-specific ones empty.
-NODE_MODULES := ../node_modules
+NODE_MODULES := ../../node_modules
 
 # The reason for this weird setup is that the IntelliJ solidity plugin will not resolve imports
 # if they're not in `lib` and do not have a `src` directory (the `remappings.txt` file is ignored).
 setup:
 	if [ ! -f .env ]; then cp .env.example .env; fi
 	rm -rf lib
-	mkdir -p lib/{openzeppelin,forge-std}
+	mkdir -p lib
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/forge-std lib/forge-std
-	ln $(LN_FLAGS) ../../$(NODE_MODULES)/@openzeppelin/contracts lib/openzeppelin/src
+	ln $(LN_FLAGS) ../$(NODE_MODULES)/@layerzerolabs lib/layerzero
+	ln $(LN_FLAGS) ../$(NODE_MODULES)/@openzeppelin lib/openzeppelin
+
 .PHONY: setup
 
 ####################################################################################################
@@ -98,7 +100,6 @@ forge-fmt-check:
 .PHONY: forge-fmt-check
 
 forge-fmt:
-	@biome check ./scripts --write;
 	@forge fmt src || true
 .PHONY: forge-fmt
 
@@ -111,11 +112,9 @@ solhint:
 .PHONY: solhint
 
 check: forge-fmt-check solhint-check ## Checks formatting & linting (no files touched)
-	biome check ./;
 .PHONY: check
 
 format: forge-fmt solhint ## Formats & lint (autofixes)
-	biome check ./ --write;
 .PHONY: format
 
 ####################################################################################################
@@ -297,4 +296,14 @@ define set-deployment-name
 	export DEPLOYMENT_NAME := $(CHAIN_NAME)/$(1)
 endef
 
+deploy-messaging: ## Deploys the Boop contracts.
+	$(eval $(call set-deployment-name,messaging))
+	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
+.PHONY: deploy-messaging
+
 ####################################################################################################
+
+dummy:
+	echo $(SRC_EID)
+	echo hello
+.PHONY: dummy

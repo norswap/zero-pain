@@ -13,6 +13,9 @@
     "resolutions": {
         "@openzeppelin/contracts": "catalog:"
     },
+    "scripts": {
+        "build": "make build"
+    },
     "exports": {
         "./messaging/op-sepolia": "./deployments/op-sepolia/messaging/abis.ts",
         "./messaging/arb-sepolia": "./deployments/arb-sepolia/messaging/abis.ts"

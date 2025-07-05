@@ -39,3 +39,7 @@ dist
 
 # AI
 .claude
+
+# Contracts
+out
+cache

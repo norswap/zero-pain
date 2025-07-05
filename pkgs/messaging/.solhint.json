@@ -18,6 +18,8 @@
         "no-console": "off",
         "gas-custom-errors": "off",
         "imports-order": "warn",
-        "import-path-check": "off"
+        "import-path-check": "off",
+        "use-natspec": "off",
+        "function-max-lines": "off"
     }
 }
