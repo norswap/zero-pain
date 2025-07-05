@@ -1,0 +1,19 @@
+{
+  "name": "@zeropain/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Norswap",
+  "license": "BSD-3-Clause-Clear",
+  "description": "Zero-pain cross-chain account abstraction",
+  "packageManager": "bun@1.2.16",
+  "workspaces": {
+    "packages": ["pkgs/*"],
+    "catalog": {
+      "typescript": "5.8.3"
+    }
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "catalog:"
+  }
+}

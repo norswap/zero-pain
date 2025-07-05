@@ -1,0 +1,24 @@
+{
+  "name": "utils",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": ["src", "package.json"],
+  "imports": {
+    "#utils/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "make": "make"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}

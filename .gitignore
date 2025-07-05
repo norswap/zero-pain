@@ -1,0 +1,41 @@
+# Environment variables
+*.env*
+!*.env*.example
+*.password*
+
+# Logs
+logs
+*.log
+
+# MacOS
+.DS_Store
+
+# Node
+node_modules
+*.local
+
+# Build outputs
+tsconfig.tsbuildinfo
+build
+dist
+
+# Editor configs and files
+.idea
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# SQLite files
+*.sqlite
+
+# Turborepo
+.turbo
+
+# AI
+.claude

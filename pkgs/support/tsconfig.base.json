@@ -1,0 +1,42 @@
+// https://www.typescriptlang.org/tsconfig/
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Default",
+    "compilerOptions": {
+        "outDir": "${configDir}/build",
+        "incremental": true,
+        "composite": true,
+        // Enable latest features
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleDetection": "force",
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "resolveJsonModule": true,
+        // Bundler mode
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "noEmit": true,
+        "emitDeclarationOnly": true,
+        "declarationMap": true,
+        // Best practices
+        "strict": true,
+        "skipLibCheck": true,
+        // Stop busting my balls
+        "noFallthroughCasesInSwitch": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noPropertyAccessFromIndexSignature": false,
+        // Enable decorators
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        // Global paths — don't specify in tsconfig.json, as that will override, not merge.
+        // This may change: https://github.com/microsoft/TypeScript/issues/57486
+        "paths": {
+            "#playground/*": ["${configDir}/../../pkgs/playground/src/*"],
+            "#utils/*": ["${configDir}/../../pkgs/utils/src/*"]
+        }
+    }
+}
