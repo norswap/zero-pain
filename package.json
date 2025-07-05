@@ -1,19 +1,23 @@
 {
   "name": "@zeropain/monorepo",
   "version": "0.0.0",
-  "private": true,
   "author": "Norswap",
-  "license": "BSD-3-Clause-Clear",
-  "description": "Zero-pain cross-chain account abstraction",
-  "packageManager": "bun@1.2.16",
-  "workspaces": {
-    "packages": ["pkgs/*"],
-    "catalog": {
-      "typescript": "5.8.3"
-    }
-  },
   "devDependencies": {
     "turbo": "^2.5.4",
     "typescript": "catalog:"
+  },
+  "description": "Zero-pain cross-chain account abstraction",
+  "license": "BSD-3-Clause-Clear",
+  "packageManager": "bun@1.2.16",
+  "private": true,
+  "workspaces": {
+    "packages": ["pkgs/*"],
+    "catalog": {
+      "@openzeppelin/contracts": "5.3.0",
+      "forge-std": "https://github.com/foundry-rs/forge-std.git#v1.9.7",
+      "solhint": "6.0.0",
+      "typescript": "5.8.3",
+      "viem": "2.31.7"
+    }
   }
 }

@@ -1,0 +1,28 @@
+# Full reference: https://getfoundry.sh/config/reference/README/
+# Defaults: https://getfoundry.sh/config/reference/default-config/
+
+[profile.default]
+# The default profile is always applied, even if a specific profile is specified.
+
+# Prague hardfork
+solc_version = "0.8.30"
+evm_version = "prague"
+
+optimizer = true
+optimizer_runs = 20000
+via_ir = true
+
+ignored_warnings_from = ["node_modules", "lib", "src/deploy", "src/scripts", "src/test"]
+
+# Needed to write from the deploy scripts.
+fs_permissions = [
+    { access = "write", path = "./out/deployment.json" },
+    { access = "write", path = "./out/abiMap.json" },
+]
+
+# Formatter Options
+line_width = 120
+
+[profile.ci]
+# Gives super verbose output by default (-vvvv) when running tests on CI.
+verbosity = 4

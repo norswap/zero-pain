@@ -1,0 +1,24 @@
+{
+    "name": "@zeropain/messaging",
+    "version": "0.0.0",
+    "author": "Norswap",
+    "devDependencies": {
+        "@layerzerolabs/oapp-evm": "^0.3.2",
+        "@openzeppelin/contracts": "catalog:",
+        "forge-std": "catalog:",
+        "node-jq": "^6.0.1",
+        "solhint": "catalog:",
+        "viem": "catalog:"
+    },
+    "resolutions": {
+        "@openzeppelin/contracts": "catalog:"
+    },
+    "exports": {
+        "./messaging/op-sepolia": "./deployments/op-sepolia/messaging/abis.ts",
+        "./messaging/arb-sepolia": "./deployments/arb-sepolia/messaging/abis.ts"
+    },
+    "files": ["*.sol", "deployments/**/*"],
+    "license": "BSD-3-Clause-Clear",
+    "private": true,
+    "type": "module"
+}
