@@ -24,7 +24,6 @@ contract DeployOApp is BaseDeployScript {
         address sendLib = vm.envAddress("SEND_LIB_ADDRESS");
         address receiveLib = vm.envAddress("RECV_LIB_ADDRESS");
         address remoteEndpoint = vm.envAddress("REMOTE_ENDPOINT_ADDRESS");
-        console.log(remoteEndpoint);
 
         address owner = vm.envAddress("OWNER_ADDRESS");
         (address oapp,) =
@@ -40,7 +39,8 @@ contract DeployOApp is BaseDeployScript {
 
         // Set receive library for inbound messages.
         // TODO Is this correct? (we're passing current chain EID — should we pass the remote chain EID?)
-        ILayerZeroEndpointV2(endpoint).setReceiveLibrary(oapp, srcEid, receiveLib, gracePeriod);
+        // NOTE: I am now trying this
+        ILayerZeroEndpointV2(endpoint).setReceiveLibrary(oapp, dstEid, receiveLib, gracePeriod);
 
         // ### Send Configuration (A → B) ###
         // This doesn't work (`setConfig` is not a thing), but might not be needed if defaults are fine.
@@ -85,10 +85,11 @@ contract DeployOApp is BaseDeployScript {
 
         // Assume the peer is the same OApp with same owner, deployed on the remote chain with the remote endpoint.
 
-        address peer = getCreate2Address(type(MyOApp).creationCode, abi.encode(owner, remoteEndpoint), DEPLOYMENT_SALT);
+        address peer = getCreate2Address(type(MyOApp).creationCode, abi.encode(remoteEndpoint, owner), DEPLOYMENT_SALT);
 
         // Set peer for remote chain.
         _oapp.setPeer(dstEid, bytes32(uint256(uint160(peer))));
+        console.log(peer);
 
 //        // ### Set enforced configuration options ###
 //        // NOTE: This wasn't run — but it's also not needed.

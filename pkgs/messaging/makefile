@@ -48,6 +48,7 @@ setup:
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/forge-std lib/forge-std
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/@layerzerolabs lib/layerzero
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/@openzeppelin lib/openzeppelin
+	ln $(LN_FLAGS) ../$(NODE_MODULES)/solidity-bytes-utils lib/solidity-bytes-utils
 
 .PHONY: setup
 
@@ -313,5 +314,14 @@ deploy-messaging-arb: ## Deploys the LayerZero contracts on Arbitrum Sepolia
 	$(eval $(call set-deployment-name,messaging))
 	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
 .PHONY: deploy-messaging-arb
+
+####################################################################################################
+# Scripts
+
+send-string:
+	$(eval $(call set-var,CHAIN_NYM,OP))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(call run-deploy-script,src/scripts/SendString.s.sol)
+.PHONY: send-string
 
 ####################################################################################################

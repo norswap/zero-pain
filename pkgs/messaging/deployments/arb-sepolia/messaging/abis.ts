@@ -653,7 +653,7 @@ const aliasToContract = ({
 }) as const
 
 export const deployment = ({
-  "MyOApp": "0xe0e880EF2F937fc56b11B82035f0e125810b50bc"
+  "MyOApp": "0x9237415e642E6e28d0dA54d9318406Ee60292040"
 }) as const
 
 export type ContractToAbi = typeof contractToAbi
