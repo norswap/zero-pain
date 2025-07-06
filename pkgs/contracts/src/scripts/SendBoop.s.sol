@@ -15,6 +15,16 @@ contract SendBoop is BoopTestUtils {
     using OptionsBuilder for bytes;
 
     function run() external {
+
+
+//        string memory mocksDeploymentPath =
+//                        string(abi.encodePacked("./deployments/", chainName, "/mocks/deployment.json"));
+//        string memory mocksDeploymentJson = vm.readFile(mocksDeploymentPath);
+//        address token = vm.parseJsonAddress(mocksDeploymentJson, "$.MockTokenA");
+//
+//        Boop memory _boop = createSignedBoopForMintToken(account, account, address(0), token, ctrlKey);
+//        bytes memory boop = Encoding.encode(_boop);
+
         address oapp = vm.envAddress("OAPP_ADDRESS");
         address account = vm.envAddress("BOOP_ACCOUNT");
         address token = vm.envAddress("TOKEN_ADDRESS");

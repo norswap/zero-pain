@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.20;
 
+import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
 import {Encoding} from "boop/core/Encoding.sol";
 import {EntryPoint} from "boop/core/EntryPoint.sol";
-import {Utils} from "boop/core/Utils.sol";
-import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
-import {Script} from "forge-std/Script.sol";
 import {MockERC20} from "src/mocks/MockERC20.sol";
+import {Script} from "forge-std/Script.sol";
+import {Utils} from "boop/core/Utils.sol";
+import {HappyAccount} from "boop/happychain/HappyAccount.sol";
+
+//import {console} from "forge-std/console.sol";
 
 /// Common utility functions for Boop unit tests
 contract BoopTestUtils is Script {
     using Encoding for Boop;
 
     uint256 public constant TOKEN_MINT_AMOUNT = 1000;
-    uint192 public constant DEFAULT_NONCETRACK = type(uint192).max;
+    uint192 public constant DEFAULT_NONCETRACK = uint192(0);
 
     // To be initialized by subclasses.
     EntryPoint public entryPoint;
@@ -59,16 +62,16 @@ contract BoopTestUtils is Script {
     {
         return Boop({
             account: _account,
-            gasLimit: 4000000,
-            executeGasLimit: 4000000,
-            validateGasLimit: 4000000,
-            validatePaymentGasLimit: 4000000,
+            gasLimit: 800_000,
+            executeGasLimit: 400_000,
+            validateGasLimit: 300_000,
+            validatePaymentGasLimit: 200_000,
             dest: _dest,
             payer: _payer,
             value: 0,
             nonceTrack: DEFAULT_NONCETRACK,
             nonceValue: entryPoint.nonceValues(_account, DEFAULT_NONCETRACK),
-            maxFeePerGas: 1200000000,
+            maxFeePerGas: 10_000_000_000,
             submitterFee: 100,
             callData: _callData,
             validatorData: "",
@@ -92,16 +95,12 @@ contract BoopTestUtils is Script {
         return abi.encodeCall(MockERC20.mint, (mintTokenTo, amount));
     }
 
-    function getETHTransferCallData(address transferTo, uint256 amount) public pure returns (bytes memory) {
-        return abi.encodeWithSignature("transfer(address, uint256)", transferTo, amount);
-    }
-
     function getInstallExtensionCallData(address extension, ExtensionType extensionType, bytes memory installData)
         public
         pure
         returns (bytes memory)
     {
-        return abi.encodeWithSignature("addExtension(address, uint8, bytes)", extension, extensionType, installData);
+        return abi.encodeCall(HappyAccount.addExtension, (extension, extensionType, installData));
     }
 
     // ====================================================================================================

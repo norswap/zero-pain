@@ -162,23 +162,31 @@ ifeq ($(DEPLOY),resume)
 endif
 
 # Deploys contracts locally, to testnet or mainnet depending on the $CONFIG value.
+# The deploy script to use is picked from `src/deploy/$DEPLOY_SCRIPT`.
 # You can also specify MODE=dry to not submit the tx, or MODE=resume to resume the last deployment.
 deploy:
-	$(call run-deploy-script,src/deploy/$(DEPLOY_SCRIPT))
+	$(call run-script,src/deploy/$(DEPLOY_SCRIPT))
 	$(call post-deploy)
 	$(call save-deployment)
 .PHONY: deploy
 
-# Defines run-deploy-script to use environment variable keys or Foundry accounts depending on the
+# Runs the script given in $SCRIPT, either locally, to testnet or mainnet depending on the $CONFIG value.
+# The script to use is picked from `src/scripts/$SCRIPT`.
+# You can also specify MODE=dry to not submit the txs.
+run:
+	$(call run-script,src/scripts/$(SCRIPT))
+.PHONY: run
+
+# Defines run-script to use environment variable keys or Foundry accounts depending on the
 # value of USE_FOUNDRY_ACCOUNT.
-define run-deploy-script
+define run-script
 	$(eval __USE_ACC := $(findstring true,$(USE_FOUNDRY_ACCOUNT)))
-	$(eval __DEPLOY_FUNC := $(if $(__USE_ACC),run-deploy-script-account,run-deploy-script-key))
+	$(eval __DEPLOY_FUNC := $(if $(__USE_ACC),run-script-account,run-script-key))
 	$(call $(__DEPLOY_FUNC),$(1))
 endef
 
 # Deploys using a private key supplied in an environment variable (dependent on the $CONFIG value).
-define run-deploy-script-key
+define run-script-key
     @# Command intentionally output.
 	forge script $(1) \
 		--fork-url $(RPC_$(CONFIG)) \
@@ -192,7 +200,7 @@ endef
 
 # Deploys using a private key supplied by a Foundry account. The account name and password file
 # are supplied in environment variables (dependent on the $CONFIG value).
-define run-deploy-script-account
+define run-script-account
 	@$(eval DEPLOY_SENDER := `cast wallet address \
 		--account $(ACCOUNT_$(CONFIG)) \
 		--password-file $(PASSFILE_$(CONFIG))`)
@@ -274,25 +282,25 @@ endef
 
 # Sets CHAIN_ID based on RPC.
 define set-chain-id
-	CHAIN_ID = $(shell cast chain-id --rpc-url $(RPC_$(CONFIG)))
+	export CHAIN_ID = $(shell cast chain-id --rpc-url $(RPC_$(CONFIG)))
 endef
 
 # Sets CHAIN_NAME based on CHAIN_ID when called.
 define set-chain-name
 	ifeq ($(CHAIN_ID),31337)
-		CHAIN_NAME = anvil
+		export CHAIN_NAME = anvil
 	else ifeq ($(CHAIN_ID),216)
-		CHAIN_NAME = happy-sepolia
+		export CHAIN_NAME = happy-sepolia
 	else ifeq ($(CHAIN_ID),11155111)
-		CHAIN_NAME = sepolia
+		export CHAIN_NAME = sepolia
 	else ifeq ($(CHAIN_ID),1)
-		CHAIN_NAME = ethereum
+		export CHAIN_NAME = ethereum
 	else ifeq ($(CHAIN_ID),421614)
-		CHAIN_NAME = arb-sepolia
+		export CHAIN_NAME = arb-sepolia
 	else ifeq ($(CHAIN_ID),11155420)
-		CHAIN_NAME = op-sepolia
+		export CHAIN_NAME = op-sepolia
 	else
-		CHAIN_NAME = unknown
+		export CHAIN_NAME = unknown
 	endif
 endef
 
@@ -305,11 +313,15 @@ define set-deployment-name
 	export DEPLOYMENT_NAME := $(CHAIN_NAME)/$(1)
 endef
 
+deploy-messaging:
+	$(eval $(call set-deployment-name,messaging))
+	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
+.PHONY: deploy-messaging
+
 deploy-messaging-op: ## Deploys the LayerZero contracts on OP Sepolia
 	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(eval $(call set-deployment-name,messaging))
-	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
+	make deploy-messaging
 .PHONY: deploy-messaging-op
 
 deploy-messaging-arb: ## Deploys the LayerZero contracts on Arbitrum Sepolia
@@ -319,11 +331,15 @@ deploy-messaging-arb: ## Deploys the LayerZero contracts on Arbitrum Sepolia
 	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
 .PHONY: deploy-messaging-arb
 
+deploy-boop:
+	$(eval $(call set-deployment-name,boop))
+	make deploy DEPLOY_SCRIPT=DeployBoop.s.sol
+.PHONY: deploy-boop
+
 deploy-boop-op: ## Deploys the Boop contracts on OP Sepolia
 	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(eval $(call set-deployment-name,boop))
-	make deploy DEPLOY_SCRIPT=DeployBoop.s.sol
+	make deploy-boop
 .PHONY: deploy-boop-op
 
 deploy-mocks-op: ## Deploys the mock contracts on OP Sepolia
@@ -340,21 +356,40 @@ deploy-boop-arb: ## Deploys the Boop contracts on Arbitrum Sepolia
 	make deploy DEPLOY_SCRIPT=DeployBoop.s.sol
 .PHONY: deploy-boop-op
 
+deploy-mocks:
+	$(eval $(call set-deployment-name,mocks))
+	make deploy DEPLOY_SCRIPT=DeployMocks.s.sol
+.PHONY: deploy-mocks
+
 deploy-mocks-arb: ## Deploys the mock contracts on Arbitrum Sepolia
 	$(eval $(call set-var,CHAIN_NYM,ARB))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(eval $(call set-var,DEPLOY,dry))
-	$(eval $(call set-deployment-name,mocks))
-	make deploy DEPLOY_SCRIPT=DeployMocks.s.sol
+	make deploy-mocks
 .PHONY: deploy-mocks-op
+
+deploy-local:
+	$(eval $(call set-var,CONFIG,LOCAL))
+	make deploy-boop
+	make deploy-mocks
+.PHONY: deploy-local
 
 ####################################################################################################
 # Scripts
 
+deploy-account:
+	$(eval $(call set-var,CHAIN_NYM,OP))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-var,DEPLOY,dry))
+	$(eval $(set-chain-id))
+	$(eval $(call set-chain-name))
+
+	make run SCRIPT=DeployAccount.s.sol
+.PHONY: deploy-account
+
 send-boop:
 	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(call run-deploy-script,src/scripts/SendBoop.s.sol)
+	make run SCRIPT=SendBoop.s.sol
 .PHONY: send-boop
 
 ####################################################################################################

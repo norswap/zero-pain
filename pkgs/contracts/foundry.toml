@@ -18,6 +18,7 @@ ignored_warnings_from = ["node_modules", "lib", "src/deploy", "src/scripts", "sr
 fs_permissions = [
     { access = "write", path = "./out/deployment.json" },
     { access = "write", path = "./out/abiMap.json" },
+    { access = "read", path = "./deployments" },
 ]
 
 # Formatter Options
