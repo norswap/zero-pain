@@ -7,21 +7,14 @@ import {Boop} from "boop/interfaces/Types.sol";
 import {BoopOApp} from "messaging/BoopOApp.sol";
 
 /**
- * TODO update
- * This validate authorizes boops to an account if they come from a LayerZero OApp that has previously
- * been approved with this validator (permission can also be revoked).
+ * This validator authorizes boops to an account if they come from a LayerZero OApp that has previously
+ * been approved with this validator (the permission can also be revoked). Only the account itself can approve
+ * or revoke OApps.
  *
- * This validator maintains a mapping from (account, target) pair to session keys, and authorizes
- * boops from the given account to the target if they are signed with the session key.
+ * The OApp should implement the {messagin/BoopOApp} interface for the `verifyOrigin` function that checks whether
+ * the OApp did indeed deliver the boop.
  *
- * Only the account is abilitated to modify its own mappings.
- *
- * Session key validation is restricted to boops that are not paid for by the account itself,
- * as this opens a griefing vector where a malicious app destroys user funds by spamming, and
- * unlike paymasters and submitters, account are not usually set up to handle this.
- *
- * The session key is represented as an address (as that is the result of ecrecover), which is not
- * strictly speaking a key, but we call it that anyway for simplicity.
+ * The OApp address itself is communicated in the extraData, under the {OAPP_KEY} key.
  */
 contract CrossChainValidator is ICustomValidator {
     /**
