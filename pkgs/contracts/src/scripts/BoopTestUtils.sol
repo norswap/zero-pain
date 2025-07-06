@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.20;
 
-import {Encoding} from "boop/core/Encoding.sol";
-import {EntryPoint} from "boop/core/EntryPoint.sol";
-import {Utils} from "boop/core/Utils.sol";
-import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
-import {MockERC20} from "src/mocks/MockERC20.sol";
-import {Script} from "forge-std/Script.sol";
+import { Encoding } from "boop/core/Encoding.sol";
+import { EntryPoint } from "boop/core/EntryPoint.sol";
+import { Utils } from "boop/core/Utils.sol";
+import { Boop, ExtensionType } from "boop/interfaces/Types.sol";
+import { Script } from "forge-std/Script.sol";
+import { MockERC20 } from "src/mocks/MockERC20.sol";
 
 /// Common utility functions for Boop unit tests
 contract BoopTestUtils is Script {
@@ -32,9 +32,15 @@ contract BoopTestUtils is Script {
         boop = createSignedBoop(account, token, payer, privKey, mintCallData);
     }
 
-    function createSignedBoopForAddExtension(address account, address extension, ExtensionType extensionType, bytes memory installData, uint256 privKey) public view returns (Boop memory boop) {
+    function createSignedBoopForAddExtension(
+        address account,
+        address extension,
+        ExtensionType extensionType,
+        bytes memory installData,
+        uint256 privKey
+    ) public view returns (Boop memory boop) {
         bytes memory callData = getInstallExtensionCallData(extension, extensionType, installData);
-        boop = createSignedBoop(account, account, address(0) /* paid by submitter */, privKey, callData);
+        boop = createSignedBoop(account, account, address(0), /* paid by submitter */ privKey, callData);
     }
 
     function createSignedBoop(address account, address dest, address payer, uint256 privKey, bytes memory callData)
@@ -90,7 +96,11 @@ contract BoopTestUtils is Script {
         return abi.encodeWithSignature("transfer(address, uint256)", transferTo, amount);
     }
 
-    function getInstallExtensionCallData(address extension, ExtensionType extensionType, bytes memory installData) public pure returns(bytes memory) {
+    function getInstallExtensionCallData(address extension, ExtensionType extensionType, bytes memory installData)
+        public
+        pure
+        returns (bytes memory)
+    {
         return abi.encodeWithSignature("addExtension(address, uint8, bytes)", extension, extensionType, installData);
     }
 

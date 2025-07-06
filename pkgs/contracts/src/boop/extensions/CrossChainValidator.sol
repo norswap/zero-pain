@@ -22,7 +22,6 @@ import {BoopOApp} from "messaging/BoopOApp.sol";
  * strictly speaking a key, but we call it that anyway for simplicity.
  */
 contract CrossChainValidator is ICustomValidator {
-
     /**
      * @dev Key used in {interfaces/Types.Boop}.extraData for storing the OApp address.
      */
@@ -65,8 +64,9 @@ contract CrossChainValidator is ICustomValidator {
 
         // 2. Decoded the OApp address
 
-        if (_oapp.length != 20)
+        if (_oapp.length != 20) {
             return abi.encodeWithSelector(bytes4(InvalidOAppAddress.selector));
+        }
 
         BoopOApp oapp;
         assembly {
@@ -80,11 +80,7 @@ contract CrossChainValidator is ICustomValidator {
         bool authorized = !authorizedOApps[msg.sender][address(oapp)];
         bytes4 selector = !found
             ? bytes4(OAppNotProvided.selector)
-            : !delivered
-                ? bytes4(BoopNotDelivered.selector)
-                : !authorized
-                    ? bytes4(UnauthorizedOApp.selector)
-                    : bytes4(0); // Success!
+            : !delivered ? bytes4(BoopNotDelivered.selector) : !authorized ? bytes4(UnauthorizedOApp.selector) : bytes4(0); // Success!
 
         return abi.encodeWithSelector(selector);
     }

@@ -1,16 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
-import {ExecutorConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/SendLibBase.sol";
-import {UlnConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol";
-import {ILayerZeroEndpointV2} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
-import {SetConfigParam} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol";
-import {MyOApp} from "../messaging/MyOApp.sol";
-import {BaseDeployScript} from "./BaseDeployScript.sol";
-import {console} from "forge-std/console.sol";
-
+import { ExecutorConfig } from "@layerzerolabs/lz-evm-messagelib-v2/contracts/SendLibBase.sol";
+import { UlnConfig } from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol";
+import { ILayerZeroEndpointV2 } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
+import { SetConfigParam } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol";
 import { EnforcedOptionParam } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
 import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
+import { MyOApp } from "./../messaging/MyOApp.sol";
+import { BaseDeployScript } from "./BaseDeployScript.sol";
 
 contract DeployOApp is BaseDeployScript {
     using OptionsBuilder for bytes;
@@ -91,19 +89,19 @@ contract DeployOApp is BaseDeployScript {
         _oapp.setPeer(dstEid, bytes32(uint256(uint160(peer))));
         console.log(peer);
 
-//        // ### Set enforced configuration options ###
-//        // NOTE: This wasn't run — but it's also not needed.
-//
-//        // Enforced message type
-//        uint16 SEND = 1;
-//
-//        bytes memory options1 = OptionsBuilder.newOptions().addExecutorLzReceiveOption(80000, 0);
-//        EnforcedOptionParam[] memory enforcedOptions = new EnforcedOptionParam[](1);
-//        enforcedOptions[0] = EnforcedOptionParam({
-//            eid: dstEid,
-//            msgType: SEND,
-//            options: options1
-//        });
-//        _oapp.setEnforcedOptions(enforcedOptions);
+        //        // ### Set enforced configuration options ###
+        //        // NOTE: This wasn't run — but it's also not needed.
+        //
+        //        // Enforced message type
+        //        uint16 SEND = 1;
+        //
+        //        bytes memory options1 = OptionsBuilder.newOptions().addExecutorLzReceiveOption(80000, 0);
+        //        EnforcedOptionParam[] memory enforcedOptions = new EnforcedOptionParam[](1);
+        //        enforcedOptions[0] = EnforcedOptionParam({
+        //            eid: dstEid,
+        //            msgType: SEND,
+        //            options: options1
+        //        });
+        //        _oapp.setEnforcedOptions(enforcedOptions);
     }
 }

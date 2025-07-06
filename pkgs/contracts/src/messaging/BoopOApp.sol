@@ -5,5 +5,5 @@ interface BoopOApp {
     /**
      * Called by {boop/extensions/CrossChainValidator} to ascertain that a boop was delivered from this OApp.
      */
-    function verifyOrigin(bytes32 boopHash) external view returns(bool);
+    function verifyOrigin(bytes32 boopHash) external view returns (bool);
 }

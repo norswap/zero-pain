@@ -1,9 +1,9 @@
-import {HappyAccountFactoryBase} from "boop/happychain/factories/HappyAccountFactoryBase.sol";
-import {console} from "forge-std/console.sol";
-import {BoopTestUtils} from "./BoopTestUtils.sol";
-import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
-import {EntryPoint} from "boop/core/EntryPoint.sol";
-import {Encoding} from "boop/core/Encoding.sol";
+import { Encoding } from "boop/core/Encoding.sol";
+import { EntryPoint } from "boop/core/EntryPoint.sol";
+import { HappyAccountFactoryBase } from "boop/happychain/factories/HappyAccountFactoryBase.sol";
+import { Boop, ExtensionType } from "boop/interfaces/Types.sol";
+import { console } from "forge-std/console.sol";
+import { BoopTestUtils } from "./BoopTestUtils.sol";
 
 contract DeployAccount is BoopTestUtils {
     bytes32 private SALT = bytes32(0);
@@ -18,7 +18,8 @@ contract DeployAccount is BoopTestUtils {
         console.log("controlling address", ctrlAddr);
         console.log("controlling private key", ctrlKey);
         bytes memory installData;
-        Boop memory _boop = createSignedBoopForAddExtension(account, crossChainValidator, ExtensionType.Validator, installData, ctrlKey);
+        Boop memory _boop =
+            createSignedBoopForAddExtension(account, crossChainValidator, ExtensionType.Validator, installData, ctrlKey);
         bytes memory boop = Encoding.encode(_boop);
         entryPoint.submit(boop);
     }

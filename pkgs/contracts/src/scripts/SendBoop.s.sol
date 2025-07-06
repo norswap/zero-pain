@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
-import "forge-std/Script.sol";
-import { MyOApp } from "../messaging/MyOApp.sol";
-import { MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
 import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
-import { BoopTestUtils } from "./BoopTestUtils.sol";
+import { MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
 import { Encoding } from "boop/core/Encoding.sol";
 import { Boop } from "boop/interfaces/Types.sol";
+import "forge-std/Script.sol";
+import { MyOApp } from "./../messaging/MyOApp.sol";
+import { BoopTestUtils } from "./BoopTestUtils.sol";
 
 /// @title LayerZero OApp Message Sending Script
 /// @notice Demonstrates how to send messages between OApp deployments
@@ -35,11 +35,7 @@ contract SendBoop is BoopTestUtils {
 
         // 2. Send the message with the quoted fee
         vm.startBroadcast();
-        _oapp.sendBoop{value: fee.nativeFee}(
-            dstEid,
-            boop,
-            options
-        );
+        _oapp.sendBoop{value: fee.nativeFee}(dstEid, boop, options);
         vm.stopBroadcast();
 
         console.log("Message sent successfully!");

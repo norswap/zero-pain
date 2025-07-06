@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
-import "../boop/core/Utils.sol";
-import {BoopOApp} from "./BoopOApp.sol";
-import {OApp, Origin, MessagingFee} from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
-import {OAppOptionsType3} from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {Boop} from "boop/interfaces/Types.sol";
-import {Encoding} from "boop/core/Encoding.sol";
-import {Utils} from "boop/core/Utils.sol";
-import {EntryPoint} from "boop/core/EntryPoint.sol";
+import { OAppOptionsType3 } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
+import { OApp, Origin, MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { Encoding } from "boop/core/Encoding.sol";
+import { EntryPoint } from "boop/core/EntryPoint.sol";
+import { Utils } from "boop/core/Utils.sol";
+import { Boop } from "boop/interfaces/Types.sol";
+import "./../boop/core/Utils.sol";
+import { BoopOApp } from "./BoopOApp.sol";
 
 contract MyOApp is OApp, OAppOptionsType3, BoopOApp {
-
     // ====================================================================================================
     // FIELDS
 
@@ -79,7 +78,6 @@ contract MyOApp is OApp, OAppOptionsType3, BoopOApp {
     // ====================================================================================================
     // RECEIVE LOGIC
 
-
     // Override _lzReceive to decode the incoming bytes and apply your logic.
     // The base OAppReceiver.lzReceive ensures:
     //   • Only the LayerZero Endpoint can call this method
@@ -105,7 +103,7 @@ contract MyOApp is OApp, OAppOptionsType3, BoopOApp {
         entryPoint.submit(_boop);
     }
 
-    function verifyOrigin(bytes32 boopHash) external view returns(bool) {
+    function verifyOrigin(bytes32 boopHash) external view returns (bool) {
         return deliveringBoop == boopHash;
     }
 }
