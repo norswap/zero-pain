@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.20;
 
-import {OptionsBuilder} from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
-import {MessagingFee} from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
-import {Encoding} from "boop/core/Encoding.sol";
-import {Boop} from "boop/interfaces/Types.sol";
-import {MyOApp} from "./../messaging/MyOApp.sol";
-import {BoopTestUtils} from "./BoopTestUtils.sol";
+import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
+import { MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
+import { Encoding } from "boop/core/Encoding.sol";
+import { Boop } from "boop/interfaces/Types.sol";
+import { console } from "forge-std/console.sol";
+import { MyOApp } from "./../messaging/MyOApp.sol";
+import { BoopTestUtils } from "./BoopTestUtils.sol";
 
 /// @title LayerZero OApp Message Sending Script
 /// @notice Demonstrates how to send messages between OApp deployments

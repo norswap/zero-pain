@@ -83,7 +83,6 @@ contract DeployOApp is BaseDeployScript {
 
         // Set peer for remote chain.
         _oapp.setPeer(dstEid, bytes32(uint256(uint160(peer))));
-        console.log(peer);
 
         //        // ### Set enforced configuration options ###
         //        // NOTE: This wasn't run — but it's also not needed.

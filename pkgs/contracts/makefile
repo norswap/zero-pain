@@ -329,7 +329,6 @@ deploy-boop-op: ## Deploys the Boop contracts on OP Sepolia
 deploy-mocks-op: ## Deploys the mock contracts on OP Sepolia
 	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(eval $(call set-var,DEPLOY,dry))
 	$(eval $(call set-deployment-name,mocks))
 	make deploy DEPLOY_SCRIPT=DeployMocks.s.sol
 .PHONY: deploy-mocks-op
