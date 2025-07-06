@@ -13,6 +13,7 @@ import {HappyAccountRegistry} from "boop/happychain/HappyAccountRegistry.sol";
 import {HappyAccountUUPSProxy} from "boop/happychain/HappyAccountUUPSProxy.sol";
 import {HappyPaymaster} from "boop/happychain/HappyPaymaster.sol";
 import {BaseDeployScript} from "src/deploy/BaseDeployScript.sol";
+import {CrossChainValidator} from "boop/extensions/CrossChainValidator.sol";
 
 contract DeployBoopContracts is BaseDeployScript {
     bytes32 public constant DEPLOYMENT_SALT = bytes32(uint256(0));
@@ -27,8 +28,7 @@ contract DeployBoopContracts is BaseDeployScript {
     HappyAccountBeacon public happyAccountBeacon;
     HappyAccountBeaconProxyFactory public happyAccountBeaconProxyFactory;
     HappyAccountUUPSProxyFactory public happyAccountUUPSProxyFactory;
-    SessionKeyValidator public sessionKeyValidator;
-    BatchCallExecutor public batchCallExecutor;
+    CrossChainValidator public crossChainValidator;
 
     bool private isLocal; // flag to indicate if the deployment is local, performs additional setup
     bool private isUUPS; // flag to determine which proxy type to use
@@ -132,23 +132,13 @@ contract DeployBoopContracts is BaseDeployScript {
 
         // -----------------------------------------------------------------------------------------
 
-        (address payable _sessionKeyValidator,) = deployDeterministic( //-
-            "SessionKeyValidator",
-            type(SessionKeyValidator).creationCode,
+        (address payable _crossChainValidator,) = deployDeterministic( //-
+            "CrossChainValidator",
+            type(CrossChainValidator).creationCode,
             "",
             DEPLOYMENT_SALT //-
         );
-        sessionKeyValidator = SessionKeyValidator(_sessionKeyValidator);
-
-        // -----------------------------------------------------------------------------------------
-
-        (address payable _batchCallExecutor,) = deployDeterministic( //-
-            "BatchCallExecutor",
-            type(BatchCallExecutor).creationCode,
-            "",
-            DEPLOYMENT_SALT //-
-        );
-        batchCallExecutor = BatchCallExecutor(_batchCallExecutor);
+        crossChainValidator = CrossChainValidator(_crossChainValidator);
 
         // -----------------------------------------------------------------------------------------
 
