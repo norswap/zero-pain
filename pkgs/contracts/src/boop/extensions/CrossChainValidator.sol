@@ -8,6 +8,8 @@ import {BoopOApp} from "messaging/BoopOApp.sol";
 
 /**
  * TODO update
+ * This validate authorizes boops to an account if they come from a LayerZero OApp that has previously
+ * been approved with this validator (permission can also be revoked).
  *
  * This validator maintains a mapping from (account, target) pair to session keys, and authorizes
  * boops from the given account to the target if they are signed with the session key.
@@ -25,7 +27,7 @@ contract CrossChainValidator is ICustomValidator {
     /**
      * @dev Key used in {interfaces/Types.Boop}.extraData for storing the OApp address.
      */
-    bytes3 constant OAPP_KEY = 0x000200;
+    bytes3 public constant OAPP_KEY = 0x000200;
 
     // ====================================================================================================
     // ERRORS

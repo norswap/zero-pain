@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
-import { OAppOptionsType3 } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
-import { OApp, Origin, MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { Encoding } from "boop/core/Encoding.sol";
-import { EntryPoint } from "boop/core/EntryPoint.sol";
-import { Utils } from "boop/core/Utils.sol";
-import { Boop } from "boop/interfaces/Types.sol";
-import "./../boop/core/Utils.sol";
-import { BoopOApp } from "./BoopOApp.sol";
+import {OAppOptionsType3} from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
+import {OApp, Origin, MessagingFee} from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Encoding} from "boop/core/Encoding.sol";
+import {EntryPoint} from "boop/core/EntryPoint.sol";
+import {Utils} from "boop/core/Utils.sol";
+import {Boop} from "boop/interfaces/Types.sol";
+import {BoopOApp} from "./BoopOApp.sol";
 
 contract MyOApp is OApp, OAppOptionsType3, BoopOApp {
     // ====================================================================================================

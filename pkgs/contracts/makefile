@@ -105,6 +105,9 @@ forge-fmt:
 	@forge fmt src || true
 .PHONY: forge-fmt
 
+# NOTE(Solhint):
+# Should re-enable gas-calldata-parameters & gas-increment-by-one.
+
 solhint-check:
 	solhint --config ./.solhint.json "src/**/*.sol";
 .PHONY: solhint-check

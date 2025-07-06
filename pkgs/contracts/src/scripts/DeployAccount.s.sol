@@ -1,12 +1,15 @@
-import { Encoding } from "boop/core/Encoding.sol";
-import { EntryPoint } from "boop/core/EntryPoint.sol";
-import { HappyAccountFactoryBase } from "boop/happychain/factories/HappyAccountFactoryBase.sol";
-import { Boop, ExtensionType } from "boop/interfaces/Types.sol";
-import { console } from "forge-std/console.sol";
-import { BoopTestUtils } from "./BoopTestUtils.sol";
+// SPDX-License-Identifier: BSD-3-Clause-Clear
+pragma solidity ^0.8.20;
+
+import {Encoding} from "boop/core/Encoding.sol";
+import {EntryPoint} from "boop/core/EntryPoint.sol";
+import {HappyAccountFactoryBase} from "boop/happychain/factories/HappyAccountFactoryBase.sol";
+import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
+import {console} from "forge-std/console.sol";
+import {BoopTestUtils} from "./BoopTestUtils.sol";
 
 contract DeployAccount is BoopTestUtils {
-    bytes32 private SALT = bytes32(0);
+    bytes32 private constant SALT = bytes32(0);
 
     function run() external {
         HappyAccountFactoryBase accountFactory = HappyAccountFactoryBase(vm.envAddress("ACCOUNT_FACTORY"));

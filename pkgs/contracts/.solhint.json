@@ -20,6 +20,12 @@
         "imports-order": "warn",
         "import-path-check": "off",
         "use-natspec": "off",
-        "function-max-lines": "off"
+        "function-max-lines": "off",
+        "gas-small-strings": "off",
+        "gas-indexed-events": "off",
+        "gas-increment-by-one": "off",
+        "gas-strict-inequalities": "off",
+        "interface-starts-with-i": "off",
+        "gas-calldata-parameters": "off"
     }
 }

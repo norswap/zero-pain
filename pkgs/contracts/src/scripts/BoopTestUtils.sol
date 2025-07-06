@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.20;
 
-import { Encoding } from "boop/core/Encoding.sol";
-import { EntryPoint } from "boop/core/EntryPoint.sol";
-import { Utils } from "boop/core/Utils.sol";
-import { Boop, ExtensionType } from "boop/interfaces/Types.sol";
-import { Script } from "forge-std/Script.sol";
-import { MockERC20 } from "src/mocks/MockERC20.sol";
+import {Encoding} from "boop/core/Encoding.sol";
+import {EntryPoint} from "boop/core/EntryPoint.sol";
+import {Utils} from "boop/core/Utils.sol";
+import {Boop, ExtensionType} from "boop/interfaces/Types.sol";
+import {Script} from "forge-std/Script.sol";
+import {MockERC20} from "src/mocks/MockERC20.sol";
 
 /// Common utility functions for Boop unit tests
 contract BoopTestUtils is Script {

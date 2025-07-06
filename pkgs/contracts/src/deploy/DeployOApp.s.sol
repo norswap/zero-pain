@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
-import { ExecutorConfig } from "@layerzerolabs/lz-evm-messagelib-v2/contracts/SendLibBase.sol";
-import { UlnConfig } from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol";
-import { ILayerZeroEndpointV2 } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
-import { SetConfigParam } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol";
-import { EnforcedOptionParam } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
-import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
-import { MyOApp } from "./../messaging/MyOApp.sol";
-import { BaseDeployScript } from "./BaseDeployScript.sol";
+import {ILayerZeroEndpointV2} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
+import {OptionsBuilder} from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
+import {MyOApp} from "./../messaging/MyOApp.sol";
+import {BaseDeployScript} from "./BaseDeployScript.sol";
 
 contract DeployOApp is BaseDeployScript {
     using OptionsBuilder for bytes;
@@ -28,7 +24,7 @@ contract DeployOApp is BaseDeployScript {
             deployDeterministic("MyOApp", type(MyOApp).creationCode, abi.encode(endpoint, owner), DEPLOYMENT_SALT);
         MyOApp _oapp = MyOApp(oapp);
 
-        uint32 srcEid = uint32(vm.envUint("SRC_EID"));
+        // uint32 srcEid = uint32(vm.envUint("SRC_EID"));
         uint32 dstEid = uint32(vm.envUint("DST_EID"));
         uint32 gracePeriod = uint32(vm.envUint("GRACE_PERIOD"));
 
