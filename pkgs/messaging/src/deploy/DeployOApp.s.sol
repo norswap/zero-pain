@@ -7,6 +7,7 @@ import {ILayerZeroEndpointV2} from "@layerzerolabs/lz-evm-protocol-v2/contracts/
 import {SetConfigParam} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol";
 import {MyOApp} from "./../MyOApp.sol";
 import {BaseDeployScript} from "./BaseDeployScript.sol";
+import {console} from "forge-std/console.sol";
 
 contract DeployOApp is BaseDeployScript {
     bytes32 private constant DEPLOYMENT_SALT = bytes32(uint256(0));
@@ -16,7 +17,9 @@ contract DeployOApp is BaseDeployScript {
     function deploy() internal override {
         address endpoint = vm.envAddress("ENDPOINT_ADDRESS");
         address sendLib = vm.envAddress("SEND_LIB_ADDRESS");
-        address receiveLib = vm.envAddress("RECEIVE_LIB_ADDRESS");
+        address receiveLib = vm.envAddress("RECV_LIB_ADDRESS");
+        address remoteEndpoint = vm.envAddress("REMOTE_ENDPOINT_ADDRESS");
+        console.log(remoteEndpoint);
 
         address owner = vm.envAddress("OWNER_ADDRESS");
         (address oapp,) =
@@ -76,7 +79,7 @@ contract DeployOApp is BaseDeployScript {
         //        ILayerZeroEndpointV2(endpoint).setConfig(oapp, sendLib, params);
 
         // Assume the peer is the same OApp with same owner, deployed on the remote chain with the remote endpoint.
-        address remoteEndpoint = vm.envAddress("REMOTE_ENDPOINT_ADDRESS");
+
         address peer = getCreate2Address(type(MyOApp).creationCode, abi.encode(owner, remoteEndpoint), DEPLOYMENT_SALT);
 
         // Set peer for remote chain.

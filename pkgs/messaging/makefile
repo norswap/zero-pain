@@ -262,9 +262,9 @@ endef
 ####################################################################################################
 # Deploy Scripts
 
-# Defines and exports CONFIG
-define set-config
-	export CONFIG=$(1)
+# Defines and exports an env variable
+define set-var
+	export $(1)=$(2)
 endef
 
 # Sets CHAIN_ID based on RPC.
@@ -282,6 +282,10 @@ define set-chain-name
 		CHAIN_NAME = sepolia
 	else ifeq ($(CHAIN_ID),1)
 		CHAIN_NAME = ethereum
+	else ifeq ($(CHAIN_ID),421614)
+		CHAIN_NAME = arb-sepolia
+	else ifeq ($(CHAIN_ID),11155420)
+		CHAIN_NAME = op-sepolia
 	else
 		CHAIN_NAME = unknown
 	endif
@@ -297,13 +301,10 @@ define set-deployment-name
 endef
 
 deploy-messaging: ## Deploys the Boop contracts.
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-deployment-name,messaging))
 	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
 .PHONY: deploy-messaging
 
 ####################################################################################################
-
-dummy:
-	echo $(SRC_EID)
-	echo hello
-.PHONY: dummy
