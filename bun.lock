@@ -8,8 +8,8 @@
         "typescript": "catalog:",
       },
     },
-    "pkgs/messaging": {
-      "name": "@zeropain/messaging",
+    "pkgs/contracts": {
+      "name": "@zeropain/contracts",
       "version": "0.0.0",
       "devDependencies": {
         "@layerzerolabs/oapp-evm": "^0.3.2",
@@ -158,7 +158,7 @@
 
     "@types/qs": ["@types/qs@6.14.0", "", {}, "sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ=="],
 
-    "@zeropain/messaging": ["@zeropain/messaging@workspace:pkgs/messaging"],
+    "@zeropain/contracts": ["@zeropain/contracts@workspace:pkgs/contracts"],
 
     "abitype": ["abitype@1.0.8", "", { "peerDependencies": { "typescript": ">=5.0.4", "zod": "^3 >=3.22.0" }, "optionalPeers": ["typescript", "zod"] }, "sha512-ZeiI6h3GnW06uYDLx0etQtX/p8E24UaHHBj57RSjK7YBFe7iuVn07EDpOeP451D06sF27VOz9JJPlIKJmXgkEg=="],
 
