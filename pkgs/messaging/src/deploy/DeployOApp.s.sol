@@ -9,7 +9,12 @@ import {MyOApp} from "./../MyOApp.sol";
 import {BaseDeployScript} from "./BaseDeployScript.sol";
 import {console} from "forge-std/console.sol";
 
+import { EnforcedOptionParam } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
+import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
+
 contract DeployOApp is BaseDeployScript {
+    using OptionsBuilder for bytes;
+
     bytes32 private constant DEPLOYMENT_SALT = bytes32(uint256(0));
     uint32 private constant EXECUTOR_CONFIG_TYPE = 1;
     uint32 private constant ULN_CONFIG_TYPE = 2;
@@ -84,5 +89,20 @@ contract DeployOApp is BaseDeployScript {
 
         // Set peer for remote chain.
         _oapp.setPeer(dstEid, bytes32(uint256(uint160(peer))));
+
+//        // ### Set enforced configuration options ###
+//        // NOTE: This wasn't run — but it's also not needed.
+//
+//        // Enforced message type
+//        uint16 SEND = 1;
+//
+//        bytes memory options1 = OptionsBuilder.newOptions().addExecutorLzReceiveOption(80000, 0);
+//        EnforcedOptionParam[] memory enforcedOptions = new EnforcedOptionParam[](1);
+//        enforcedOptions[0] = EnforcedOptionParam({
+//            eid: dstEid,
+//            msgType: SEND,
+//            options: options1
+//        });
+//        _oapp.setEnforcedOptions(enforcedOptions);
     }
 }
