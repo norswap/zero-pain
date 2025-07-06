@@ -300,11 +300,18 @@ define set-deployment-name
 	export DEPLOYMENT_NAME := $(CHAIN_NAME)/$(1)
 endef
 
-deploy-messaging: ## Deploys the Boop contracts.
-	$(eval $(call set-var,CONFIG,TEST))
+deploy-messaging-op: ## Deploys the LayerZero contracts on OP Sepolia
 	$(eval $(call set-var,CHAIN_NYM,OP))
+	$(eval $(call set-var,CONFIG,TEST))
 	$(eval $(call set-deployment-name,messaging))
 	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
-.PHONY: deploy-messaging
+.PHONY: deploy-messaging-op
+
+deploy-messaging-arb: ## Deploys the LayerZero contracts on Arbitrum Sepolia
+	$(eval $(call set-var,CHAIN_NYM,ARB))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-deployment-name,messaging))
+	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
+.PHONY: deploy-messaging-arb
 
 ####################################################################################################
