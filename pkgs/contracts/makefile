@@ -49,6 +49,8 @@ setup:
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/@layerzerolabs lib/layerzero
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/@openzeppelin lib/openzeppelin
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/solidity-bytes-utils lib/solidity-bytes-utils
+	ln $(LN_FLAGS) ../$(NODE_MODULES)/solady lib/solady
+	ln $(LN_FLAGS) ../$(NODE_MODULES)/ExcessivelySafeCall lib/ExcessivelySafeCall
 
 .PHONY: setup
 
@@ -314,6 +316,36 @@ deploy-messaging-arb: ## Deploys the LayerZero contracts on Arbitrum Sepolia
 	$(eval $(call set-deployment-name,messaging))
 	make deploy DEPLOY_SCRIPT=DeployOApp.s.sol
 .PHONY: deploy-messaging-arb
+
+deploy-boop-op: ## Deploys the Boop contracts on OP Sepolia
+	$(eval $(call set-var,CHAIN_NYM,OP))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-deployment-name,boop))
+	make deploy DEPLOY_SCRIPT=DeployBoop.s.sol
+.PHONY: deploy-boop-op
+
+deploy-mocks-op: ## Deploys the mock contracts on OP Sepolia
+	$(eval $(call set-var,CHAIN_NYM,OP))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-var,DEPLOY,dry))
+	$(eval $(call set-deployment-name,mocks))
+	make deploy DEPLOY_SCRIPT=DeployMocks.s.sol
+.PHONY: deploy-mocks-op
+
+deploy-boop-arb: ## Deploys the Boop contracts on Arbitrum Sepolia
+	$(eval $(call set-var,CHAIN_NYM,ARB))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-deployment-name,boop))
+	make deploy DEPLOY_SCRIPT=DeployBoop.s.sol
+.PHONY: deploy-boop-op
+
+deploy-mocks-arb: ## Deploys the mock contracts on Arbitrum Sepolia
+	$(eval $(call set-var,CHAIN_NYM,ARB))
+	$(eval $(call set-var,CONFIG,TEST))
+	$(eval $(call set-var,DEPLOY,dry))
+	$(eval $(call set-deployment-name,mocks))
+	make deploy DEPLOY_SCRIPT=DeployMocks.s.sol
+.PHONY: deploy-mocks-op
 
 ####################################################################################################
 # Scripts

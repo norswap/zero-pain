@@ -1,5 +1,10 @@
 @openzeppelin/=lib/openzeppelin
+openzeppelin/=lib/openzeppelin/contracts
+oz-upgradeable/=lib/openzeppelin/contracts-upgradeable
+solady/=lib/solady/src/
 @layerzerolabs/=lib/layerzero
 solidity-bytes-utils/=lib/solidity-bytes-utils
 forge-std/=lib/forge-std/src/
+ExcessivelySafeCall/=lib/ExcessivelySafeCall/src
 src/=src/
+boop/=src/boop/
