@@ -51,7 +51,6 @@ setup:
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/solidity-bytes-utils lib/solidity-bytes-utils
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/solady lib/solady
 	ln $(LN_FLAGS) ../$(NODE_MODULES)/ExcessivelySafeCall lib/ExcessivelySafeCall
-
 .PHONY: setup
 
 ####################################################################################################
@@ -350,10 +349,10 @@ deploy-mocks-arb: ## Deploys the mock contracts on Arbitrum Sepolia
 ####################################################################################################
 # Scripts
 
-send-string:
+send-boop:
 	$(eval $(call set-var,CHAIN_NYM,OP))
 	$(eval $(call set-var,CONFIG,TEST))
-	$(call run-deploy-script,src/scripts/SendString.s.sol)
-.PHONY: send-string
+	$(call run-deploy-script,src/scripts/SendBoop.s.sol)
+.PHONY: send-boop
 
 ####################################################################################################

@@ -5,35 +5,39 @@ import "forge-std/Script.sol";
 import { MyOApp } from "../messaging/MyOApp.sol";
 import { MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
 import { OptionsBuilder } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OptionsBuilder.sol";
+import { BoopTestUtils } from "./BoopTestUtils.sol";
+import { Encoding } from "boop/core/Encoding.sol";
+import { Boop } from "boop/interfaces/Types.sol";
 
 /// @title LayerZero OApp Message Sending Script
 /// @notice Demonstrates how to send messages between OApp deployments
-contract SendMessage is Script {
+contract SendBoop is BoopTestUtils {
     using OptionsBuilder for bytes;
 
     function run() external {
         address oapp = vm.envAddress("OAPP_ADDRESS");
+        address account = vm.envAddress("BOOP_ACCOUNT");
+        address token = vm.envAddress("TOKEN_ADDRESS");
+        uint256 privKey = vm.envUint("CONTROLLING_KEY");
         MyOApp _oapp = MyOApp(oapp);
         uint32 dstEid = uint32(vm.envUint("DST_EID"));
-        string memory message = "Hello World";
         bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(100_000, 0);
 
+        // Mint with account, to account, payed by the submitter.
+        Boop memory _boop = createSignedBoopForMintToken(account, account, address(0), token, privKey);
+        bytes memory boop = Encoding.encode(_boop);
+
         // 1. Quote the gas cost first
-        MessagingFee memory fee = _oapp.quoteSendString(
-            dstEid,
-            message,
-            options,
-            false // Pay in native gas, not ZRO tokens
-        );
+        MessagingFee memory fee = _oapp.quoteSendString(dstEid, boop, options);
 
         console.log("Estimated native fee:", fee.nativeFee);
         console.log("Estimated LZ token fee:", fee.lzTokenFee);
 
         // 2. Send the message with the quoted fee
         vm.startBroadcast();
-        _oapp.sendString{value: fee.nativeFee}(
+        _oapp.sendBoop{value: fee.nativeFee}(
             dstEid,
-            message,
+            boop,
             options
         );
         vm.stopBroadcast();

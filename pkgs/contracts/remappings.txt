@@ -8,3 +8,4 @@ forge-std/=lib/forge-std/src/
 ExcessivelySafeCall/=lib/ExcessivelySafeCall/src
 src/=src/
 boop/=src/boop/
+messaging/=src/messaging/
