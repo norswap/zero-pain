@@ -5,7 +5,7 @@ import {ExecutorConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/Send
 import {UlnConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol";
 import {ILayerZeroEndpointV2} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
 import {SetConfigParam} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol";
-import {MyOApp} from "./../MyOApp.sol";
+import {MyOApp} from "../messaging/MyOApp.sol";
 import {BaseDeployScript} from "./BaseDeployScript.sol";
 import {console} from "forge-std/console.sol";
 
